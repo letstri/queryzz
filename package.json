@@ -33,8 +33,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build",
-      "pre-push": "npm run test"
+      "pre-commit": "npm run build && npm run test"
     }
   },
   "homepage": "https://github.com/BrooonS/queryzz#readme",
