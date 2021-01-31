@@ -1,14 +1,14 @@
 {
   "name": "queryzz",
   "version": "1.0.0",
-  "description": "Library for working with query",
+  "description": "queryzz - a library for working with query. Get, set, format your query as you want.",
   "main": "dist/queryzz.js",
   "types": "dist/queryzz.d.ts",
   "module": "dist/queryzz.js",
   "prepublish": "npm run build && npm run test",
   "scripts": {
     "dev": "webpack --env development --watch",
-    "build": "webpack --env production",
+    "build": "webpack --env production && npm run docs",
     "test": "jest",
     "docs": "jsdoc2md --template ./README.hbs --files ./src/lib/*.ts --configure ./jsdoc2md.json > ./README.md"
   },
