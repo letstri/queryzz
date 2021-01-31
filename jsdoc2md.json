@@ -1,0 +1,12 @@
+{
+  "source": {
+    "includePattern": ".+\\.ts(doc|x)?$"
+  },
+  "plugins": [
+    "node_modules/jsdoc-babel"
+  ],
+  "babel": {
+    "extensions": ["ts"],
+  	"presets": ["@babel/preset-typescript"]
+  }
+}
