@@ -24,7 +24,8 @@
     "format",
     "getQuery",
     "formatQuery",
-    "setQuery"
+    "setQuery",
+    "typescript"
   ],
   "author": "Valery Strelets",
   "license": "ISC",

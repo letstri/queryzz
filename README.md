@@ -1,6 +1,6 @@
 # queryzz.js
 
-> A collection of useful methods that are used by programmers every day. We decided to put all the methods together so as not to copy them from project to project.
+> queryzz - a library for working with query. Get, set, format your query as you want.
 
 [![npm version](https://badge.fury.io/js/queryzz.svg)](https://brooons.github.io/queryzz/)
 [![](https://data.jsdelivr.com/v1/package/npm/queryzz/badge)](https://www.jsdelivr.com/package/npm/queryzz)
@@ -55,14 +55,6 @@ Recommended for production for avoiding unexpected breakage from newer versions:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/queryzz@1.0.0/dist/queryzz.js"></script>
-```
-
-For native ES Modules, there is also an ES Modules compatible build:
-
-```html
-<script type="module">
-  import queryzz from 'https://cdn.jsdelivr.net/npm/queryzz@6.0.5/dist/queryzz.min.js';
-</script>
 ```
 
 ### Initialization
