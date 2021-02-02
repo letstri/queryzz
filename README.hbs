@@ -2,7 +2,7 @@
 
 > queryzz - a library for working with query. Get, set, format your query as you want.
 
-[![npm version](https://badge.fury.io/js/queryzz.svg)](https://brooons.github.io/queryzz/)
+[![npm version](https://badge.fury.io/js/queryzz.svg)](https://www.npmjs.com/package/queryzz)
 [![](https://data.jsdelivr.com/v1/package/npm/queryzz/badge)](https://www.jsdelivr.com/package/npm/queryzz)
 
 ## Features
