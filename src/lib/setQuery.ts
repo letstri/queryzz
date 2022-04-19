@@ -1,9 +1,7 @@
-import IQuery from '../interfaces/IQuery';
+import type { Query, StringQuery } from '../interfaces/Query';
 import getQuery from './getQuery';
 
-const { hasOwnProperty } = Object.prototype;
-
-interface IOptions {
+interface Options {
   saveOld?: boolean,
   saveHash?: boolean,
   saveEmpty?: boolean,
@@ -14,7 +12,7 @@ interface IOptions {
  * @description
  * Set query to url.
  *
- * @param {IQuery} query Object to parse in url.
+ * @param {Query} query Object to parse in url.
  * @param {?Object} params Object with params.
  * @param {?Boolean} params.saveOld Does save old query. Default: false.
  * @param {?Boolean} params.saveHash Does save hash. Default: true.
@@ -36,7 +34,7 @@ interface IOptions {
  * setQuery({ test: 'value' }, { saveHash: false })
  * // => /?test=value
  */
-function setQuery(query?: IQuery, options?: IOptions): void {
+function setQuery(query?: Query, options?: Options): void {
   const {
     saveOld,
     saveHash,
@@ -50,7 +48,7 @@ function setQuery(query?: IQuery, options?: IOptions): void {
     ...options,
   };
 
-  const fixedQuery: IQuery<string> = query && query.constructor.name === 'Object'
+  const fixedQuery: StringQuery = query && query.constructor.name === 'Object'
     ? Object.entries(query).reduce((acc, field) => {
       const fieldName = field[0];
       const fieldValue = Array.isArray(field[1])
@@ -68,32 +66,33 @@ function setQuery(query?: IQuery, options?: IOptions): void {
   ];
 
   const stableQuery = saveOld && Object.keys(oldQuery).length !== 0
-    ? mergedQueries.reduce((newQuery, [fieldName, fieldValue]) => {
-      const isFieldExistInNewQuery = hasOwnProperty.call(newQuery, fieldName);
-      const isFieldExistInOldQuery = hasOwnProperty.call(oldQuery, fieldName);
+    ? mergedQueries
+      .reduce((newQuery: StringQuery, [fieldName, fieldValue]) => {
+        const isFieldExistInNewQuery = fieldName in newQuery;
+        const isFieldExistInOldQuery = fieldName in oldQuery;
 
-      if (isFieldExistInNewQuery && !isFieldExistInOldQuery) {
-        const valueInQuery = newQuery[fieldName];
-        const newValueInQuery = [...new Set([
-          Array.isArray(valueInQuery) ? valueInQuery : [valueInQuery],
-          Array.isArray(fieldValue) ? fieldValue : [fieldValue],
-        ].flat())];
+        if (isFieldExistInNewQuery && !isFieldExistInOldQuery) {
+          const valueInQuery = newQuery[fieldName];
+          const newValueInQuery = [...new Set([
+            Array.isArray(valueInQuery) ? valueInQuery : [valueInQuery],
+            Array.isArray(fieldValue) ? fieldValue : [fieldValue],
+          ].flat())];
+
+          return {
+            ...newQuery,
+            [fieldName]: newValueInQuery,
+          };
+        }
+
+        if (isFieldExistInNewQuery && isFieldExistInOldQuery) {
+          return newQuery;
+        }
 
         return {
           ...newQuery,
-          [fieldName]: newValueInQuery,
+          [fieldName]: fieldValue,
         };
-      }
-
-      if (isFieldExistInNewQuery && isFieldExistInOldQuery) {
-        return newQuery;
-      }
-
-      return {
-        ...newQuery,
-        [fieldName]: fieldValue,
-      };
-    }, {} as IQuery<string>)
+      }, {})
     : fixedQuery;
 
   const newQueryString = Object.keys(stableQuery)

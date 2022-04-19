@@ -140,7 +140,7 @@ Get query from url.
 
 #### Params
 - `options`
-  - Type: `String,IOptions`
+  - Type: `String,Options`
   - Description: Can be null and link or query and object with params.
 - `options.link`
   - Type: `String`
@@ -153,7 +153,7 @@ Get query from url.
   - Description: Need to parse types. Default: true.
 
 #### Returns
-- `IQuery`
+- `Query`
 
 #### Example
 ```JS
@@ -184,7 +184,7 @@ Set query to url.
 
 #### Params
 - `query`
-  - Type: `IQuery`
+  - Type: `Query`
   - Description: Object to parse in url.
 - `params`
   - Type: `Object`

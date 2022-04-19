@@ -1,4 +1,4 @@
-import IQuery from '../interfaces/IQuery';
+import type { Query } from '../interfaces/Query';
 
 /**
  * @description
@@ -23,7 +23,7 @@ import IQuery from '../interfaces/IQuery';
  * formatQuery(query, false)
  * // => value=https://google.com
  */
-function formatQuery(query: IQuery, encode = true): string {
+function formatQuery(query: Query, encode = true): string {
   if (query.constructor.name !== 'Object') {
     throw new Error('[queryzz]: param is not an object.');
   }

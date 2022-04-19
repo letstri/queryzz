@@ -15,6 +15,15 @@ describe('[setQuery]: test simple set', () => {
     setQuery({ test: '123' });
 
     expect(window.location.search).toBe('?test=123');
+
+    setQuery({ test: '321' });
+
+    expect(window.location.search).toBe('?test=321');
+
+    setQuery({ test: '456' });
+    setQuery({ test: '456' });
+
+    expect(window.location.search).toBe('?test=456');
   });
 });
 

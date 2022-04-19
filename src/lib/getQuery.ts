@@ -1,27 +1,25 @@
+import type { Query, StringQuery } from '../interfaces/Query';
 import { tryToParse } from '../utils';
-import IQuery from '../interfaces/IQuery';
 
-const { hasOwnProperty } = Object.prototype;
-
-interface IOptions {
+interface Options {
   link?: string,
   arrays?: string[],
   parse?: boolean;
 }
 
 // Signatures
-function getQuery(options: IOptions & { parse: false }): IQuery<string>;
-function getQuery(options?: string | IOptions): IQuery;
+function getQuery<T = StringQuery>(options: Options & { parse: false }): T;
+function getQuery<T = Query>(options?: string | Options): T;
 
 /**
  * @description
  * Get query from url.
  *
- * @param {String | IOptions} options Can be null and link or query and object with params.
+ * @param {String | Options} options Can be null and link or query and object with params.
  * @param {String} options.link Link or query to parse. Default: window.location.search.
  * @param {Array} options.arrays Fields that must be arrays. Default: [].
  * @param {Boolean} options.parse Need to parse types. Default: true.
- * @returns {IQuery}
+ * @returns {Query}
  *
  * @example
  * // URL: /?value=test&field=hi&field=hello
@@ -42,31 +40,21 @@ function getQuery(options?: string | IOptions): IQuery;
  * getQuery({ link: 'value=test&field=hi&value=123&test=true', parse: false })
  * // => { value: ['test', '123'], field: 'hi', test: 'true' }
  */
-function getQuery(options?: string | IOptions): IQuery {
+function getQuery<T = Query>(options?: string | Options): T {
   if (options && options.constructor.name !== 'String' && options.constructor.name !== 'Object') {
-    throw new Error('[queryzz]: param is not an object or string.');
+    throw new Error('[queryzz]: param is not an object or a string.');
   }
 
-  let link = window.location.search;
+  const { search } = window.location;
+  let link = (typeof options === 'string' ? options : options?.link) || search;
 
   if (options) {
     try {
-      const { search } = typeof options === 'string'
-        ? new URL(options || link)
-        : new URL(typeof options?.link === 'string' ? options.link || link : link);
-
-      link = search;
+      link = new URL(link).search;
     } catch (e) {
-      if (typeof options === 'string' || (typeof options === 'object' && typeof options?.link === 'string')) {
-        const splittedLink = (
-          (
-            typeof options === 'string'
-              ? options
-              : typeof options?.link === 'string' && options.link
-          ) || link
-        )
-          .split('?');
-        const query = splittedLink[1] || splittedLink[0];
+      if (typeof options === 'string' || typeof options?.link === 'string') {
+        const [part1, part2] = link.split('?');
+        const query = part2 || part1;
 
         if (query.split('&').length > 0) {
           link = query;
@@ -75,45 +63,38 @@ function getQuery(options?: string | IOptions): IQuery {
     }
   }
 
-  const localOptions: IOptions = {
+  const localOptions: Options = {
     link,
     parse: true,
     arrays: [],
-    ...(typeof options === 'object' ? options || {} : {}),
+    ...((typeof options === 'object' && options) || {}),
   };
 
-  const query = link.startsWith('?') ? link.split('?')[1] : link;
+  const arrays = Array.isArray(localOptions.arrays)
+    ? localOptions.arrays.filter((item) => typeof item === 'string')
+    : [];
+  const stringQuery = link.startsWith('?') ? link.slice(1) : link;
+  const filteredQuery = stringQuery
+    .split('&')
+    .filter((part) => !!part && part.split('=')[1]);
 
-  return query.split('&').reduce((newQuery, part) => {
-    if (!part) {
-      return newQuery;
-    }
+  const startedQuery = arrays
+    .reduce((acc, field) => ({ ...acc, [field]: [] }), {} as T);
 
+  return filteredQuery.reduce((newQuery, part) => {
     const [key, value] = part.split('=');
-
-    if (value === undefined) {
-      return newQuery;
-    }
-
     const formattedValue = localOptions.parse
       ? tryToParse(decodeURIComponent(value))
       : decodeURIComponent(value);
 
-    if (hasOwnProperty.call(newQuery, key)) {
-      const field = newQuery[key];
+    if (key in newQuery) {
+      const field = newQuery[key as keyof typeof newQuery];
 
       // If key already exists in formatted query,
       // push to that array or create new array with this key and value.
-      if (Array.isArray(field)) {
-        return {
-          ...newQuery,
-          [key]: [...field, formattedValue],
-        };
-      }
-
       return {
         ...newQuery,
-        [key]: [field, formattedValue],
+        [key]: Array.isArray(field) ? [...field, formattedValue] : [field, formattedValue],
       };
     }
 
@@ -121,12 +102,7 @@ function getQuery(options?: string | IOptions): IQuery {
       ...newQuery,
       [key]: formattedValue,
     };
-  }, (Array.isArray(localOptions.arrays) // Start with empty arrays
-    ? localOptions.arrays.filter((item) => typeof item === 'string')
-    : []).reduce((acc, field) => ({
-    ...acc,
-    [field]: [],
-  }), {} as IQuery));
+  }, startedQuery);
 }
 
 export default getQuery;

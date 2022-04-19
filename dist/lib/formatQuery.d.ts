@@ -1,4 +1,4 @@
-import IQuery from '../interfaces/IQuery';
+import type { Query } from '../interfaces/Query';
 /**
  * @description
  * Format query object to string.
@@ -22,5 +22,5 @@ import IQuery from '../interfaces/IQuery';
  * formatQuery(query, false)
  * // => value=https://google.com
  */
-declare function formatQuery(query: IQuery, encode?: boolean): string;
+declare function formatQuery(query: Query, encode?: boolean): string;
 export default formatQuery;

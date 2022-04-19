@@ -1,5 +1,5 @@
-import IQuery from '../interfaces/IQuery';
-interface IOptions {
+import type { Query } from '../interfaces/Query';
+interface Options {
     saveOld?: boolean;
     saveHash?: boolean;
     saveEmpty?: boolean;
@@ -9,7 +9,7 @@ interface IOptions {
  * @description
  * Set query to url.
  *
- * @param {IQuery} query Object to parse in url.
+ * @param {Query} query Object to parse in url.
  * @param {?Object} params Object with params.
  * @param {?Boolean} params.saveOld Does save old query. Default: false.
  * @param {?Boolean} params.saveHash Does save hash. Default: true.
@@ -31,5 +31,5 @@ interface IOptions {
  * setQuery({ test: 'value' }, { saveHash: false })
  * // => /?test=value
  */
-declare function setQuery(query?: IQuery, options?: IOptions): void;
+declare function setQuery(query?: Query, options?: Options): void;
 export default setQuery;

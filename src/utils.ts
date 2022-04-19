@@ -1,4 +1,4 @@
-import { QueryItem } from './interfaces/IQuery';
+import { QueryItem } from './interfaces/Query';
 
 // eslint-disable-next-line import/prefer-default-export
 export const tryToParse = (value: string): QueryItem => {
