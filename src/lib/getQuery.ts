@@ -2,14 +2,17 @@ import type { Query, StringQuery } from '../interfaces/Query';
 import { tryToParse } from '../utils';
 
 interface Options {
-  link?: string,
-  arrays?: string[],
+  link?: string;
+  arrays?: string[];
   parse?: boolean;
 }
 
 // Signatures
-function getQuery<T = StringQuery>(options: Options & { parse: false }): T;
-function getQuery<T = Query>(options?: string | Options): T;
+function getQuery<T = StringQuery>(
+  options: Options & { parse: false },
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+): Partial<{ [P in keyof T]: T[P] extends Array<infer _> ? string[] : string; }>;
+function getQuery<T = Query>(options?: string | Options): Partial<T>;
 
 /**
  * @description
@@ -40,7 +43,7 @@ function getQuery<T = Query>(options?: string | Options): T;
  * getQuery({ link: 'value=test&field=hi&value=123&test=true', parse: false })
  * // => { value: ['test', '123'], field: 'hi', test: 'true' }
  */
-function getQuery<T = Query>(options?: string | Options): T {
+function getQuery<T = Query>(options?: string | Options): Partial<T> {
   if (options && options.constructor.name !== 'String' && options.constructor.name !== 'Object') {
     throw new Error('[queryzz]: param is not an object or a string.');
   }

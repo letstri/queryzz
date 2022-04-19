@@ -6,6 +6,8 @@ interface Options {
 }
 declare function getQuery<T = StringQuery>(options: Options & {
     parse: false;
-}): T;
-declare function getQuery<T = Query>(options?: string | Options): T;
+}): Partial<{
+    [P in keyof T]: T[P] extends Array<infer _> ? string[] : string;
+}>;
+declare function getQuery<T = Query>(options?: string | Options): Partial<T>;
 export default getQuery;

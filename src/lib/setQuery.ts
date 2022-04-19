@@ -49,17 +49,16 @@ function setQuery(query?: Query, options?: Options): void {
   };
 
   const fixedQuery: StringQuery = query && query.constructor.name === 'Object'
-    ? Object.entries(query).reduce((acc, field) => {
-      const fieldName = field[0];
-      const fieldValue = Array.isArray(field[1])
-        ? [...new Set(field[1].flat(Infinity).map(String))]
-        : field[1];
+    ? Object.entries(query).reduce((acc, [name, value]) => {
+      const newValue = Array.isArray(value)
+        ? [...new Set(value.flat(Infinity).map(String))]
+        : value;
 
-      return { ...acc, [fieldName]: fieldValue };
+      return { ...acc, [name]: newValue };
     }, {})
     : {};
 
-  const oldQuery = getQuery({ parse: false });
+  const oldQuery = getQuery({ parse: false }) as StringQuery;
   const mergedQueries = [
     ...Object.entries<string | string[]>(fixedQuery),
     ...Object.entries<string | string[]>(oldQuery),
@@ -67,32 +66,32 @@ function setQuery(query?: Query, options?: Options): void {
 
   const stableQuery = saveOld && Object.keys(oldQuery).length !== 0
     ? mergedQueries
-      .reduce((newQuery: StringQuery, [fieldName, fieldValue]) => {
-        const isFieldExistInNewQuery = fieldName in newQuery;
-        const isFieldExistInOldQuery = fieldName in oldQuery;
+      .reduce<StringQuery>((newQuery, [fieldName, fieldValue]) => {
+      const doesExistInNew = fieldName in newQuery;
+      const doesExistInOld = fieldName in oldQuery;
 
-        if (isFieldExistInNewQuery && !isFieldExistInOldQuery) {
-          const valueInQuery = newQuery[fieldName];
-          const newValueInQuery = [...new Set([
-            Array.isArray(valueInQuery) ? valueInQuery : [valueInQuery],
-            Array.isArray(fieldValue) ? fieldValue : [fieldValue],
-          ].flat())];
-
-          return {
-            ...newQuery,
-            [fieldName]: newValueInQuery,
-          };
-        }
-
-        if (isFieldExistInNewQuery && isFieldExistInOldQuery) {
-          return newQuery;
-        }
+      if (doesExistInNew && !doesExistInOld) {
+        const queryValue = newQuery[fieldName];
+        const newQueryValue = [...new Set([
+          Array.isArray(queryValue) ? queryValue : [queryValue],
+          Array.isArray(fieldValue) ? fieldValue : [fieldValue],
+        ].flat())];
 
         return {
           ...newQuery,
-          [fieldName]: fieldValue,
+          [fieldName]: newQueryValue,
         };
-      }, {})
+      }
+
+      if (doesExistInNew && doesExistInOld) {
+        return newQuery;
+      }
+
+      return {
+        ...newQuery,
+        [fieldName]: fieldValue,
+      };
+    }, {})
     : fixedQuery;
 
   const newQueryString = Object.keys(stableQuery)

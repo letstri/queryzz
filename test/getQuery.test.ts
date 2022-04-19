@@ -46,6 +46,12 @@ describe('[getQuery]: test parse', () => {
     const query = getQuery({ link: 'test=123&bool=false', parse: false });
 
     expect(query).toEqual({ test: '123', bool: 'false' });
+
+    window.location.search = '?test=123&bool=false';
+
+    const query2 = getQuery({ parse: false });
+
+    expect(query2).toEqual({ test: '123', bool: 'false' });
   });
 });
 
