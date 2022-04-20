@@ -25,6 +25,20 @@ describe('[setQuery]: test simple set', () => {
 
     expect(window.location.search).toBe('?test=456');
   });
+
+  test('set simple boolean query', () => {
+    setQuery({ bool: false });
+
+    expect(window.location.search).toBe('?bool=false');
+
+    setQuery({ bool: true });
+
+    expect(window.location.search).toBe('?bool=true');
+
+    setQuery({ bool: [true, false] });
+
+    expect(window.location.search).toBe('?bool=true&bool=false');
+  });
 });
 
 describe('[setQuery]: test array set', () => {

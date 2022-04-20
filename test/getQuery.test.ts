@@ -53,6 +53,18 @@ describe('[getQuery]: test parse', () => {
 
     expect(query2).toEqual({ test: '123', bool: 'false' });
   });
+
+  test('get simple bool query', () => {
+    window.location.search = '?bool=true&bool=false';
+
+    const query = getQuery();
+
+    expect(query).toEqual({ bool: [true, false] });
+
+    const query2 = getQuery({ parse: false });
+
+    expect(query2).toEqual({ bool: ['true', 'false'] });
+  });
 });
 
 describe('[getQuery]: test get query with arrays', () => {
@@ -80,6 +92,14 @@ describe('[getQuery]: special tests', () => {
     const query = getQuery();
 
     expect(query).toEqual({ test: '{}' });
+  });
+
+  test('get array as string', () => {
+    window.location.search = '?test=[]';
+
+    const query = getQuery();
+
+    expect(query).toEqual({ test: '[]' });
   });
 
   test('get hard query', () => {

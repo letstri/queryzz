@@ -66,20 +66,20 @@ function setQuery(query?: Query, options?: Options): void {
 
   const stableQuery = saveOld && Object.keys(oldQuery).length !== 0
     ? mergedQueries
-      .reduce<StringQuery>((newQuery, [fieldName, fieldValue]) => {
-      const doesExistInNew = fieldName in newQuery;
-      const doesExistInOld = fieldName in oldQuery;
+      .reduce<StringQuery>((newQuery, [name, value]) => {
+      const doesExistInNew = name in newQuery;
+      const doesExistInOld = name in oldQuery;
 
       if (doesExistInNew && !doesExistInOld) {
-        const queryValue = newQuery[fieldName];
+        const queryValue = newQuery[name];
         const newQueryValue = [...new Set([
           Array.isArray(queryValue) ? queryValue : [queryValue],
-          Array.isArray(fieldValue) ? fieldValue : [fieldValue],
+          Array.isArray(value) ? value : [value],
         ].flat())];
 
         return {
           ...newQuery,
-          [fieldName]: newQueryValue,
+          [name]: newQueryValue,
         };
       }
 
@@ -89,39 +89,26 @@ function setQuery(query?: Query, options?: Options): void {
 
       return {
         ...newQuery,
-        [fieldName]: fieldValue,
+        [name]: value,
       };
     }, {})
     : fixedQuery;
 
-  const newQueryString = Object.keys(stableQuery)
-    .filter((key) => key !== '&')
-    .sort((a, b) => a.localeCompare(b))
-    .map((key) => {
-      const value = stableQuery[key];
+  const newQueryString = Object.entries(stableQuery)
+    .filter(([key]) => key !== '&')
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, value]) => {
+      const getPart = (val: string) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`;
+      const canSave = (val = value) => (saveEmpty ? !!key : !!key && val !== null && val !== undefined && val !== '');
 
       if (Array.isArray(value)) {
         return value
-          .map((arrayValue) => {
-            if (saveEmpty) {
-              return key ? `${encodeURIComponent(key)}=${encodeURIComponent(arrayValue)}` : '';
-            }
-
-            return key && arrayValue ? `${encodeURIComponent(key)}=${encodeURIComponent(arrayValue)}` : '';
-          })
-          .filter((queryItem) => queryItem)
+          .map((arrayValue) => (canSave(arrayValue) ? getPart(arrayValue) : ''))
+          .filter(Boolean)
           .join('&');
       }
 
-      if (saveEmpty) {
-        return key
-          ? `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-          : '';
-      }
-
-      return key && value
-        ? `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-        : '';
+      return canSave() ? getPart(value) : '';
     })
     .filter(Boolean)
     .join('&');
