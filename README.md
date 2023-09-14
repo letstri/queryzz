@@ -131,7 +131,7 @@ const query = { value: 'https://google.com' }
 formatQuery(query, false)
 // => value=https://google.com
 ```
-<a href="https://github.com/BrooonS/queryzz/blob/master/src/lib/formatQuery.ts" target="_blank">Source code</a>
+<a href="https://github.com/letstri/queryzz/blob/master/src/lib/formatQuery.ts" target="_blank">Source code</a>
 * * *
 ### getQuery
 
@@ -175,7 +175,7 @@ getQuery()
 getQuery({ link: 'value=test&field=hi&value=123&test=true', parse: false })
 // => { value: ['test', '123'], field: 'hi', test: 'true' }
 ```
-<a href="https://github.com/BrooonS/queryzz/blob/master/src/lib/getQuery.ts" target="_blank">Source code</a>
+<a href="https://github.com/letstri/queryzz/blob/master/src/lib/getQuery.ts" target="_blank">Source code</a>
 * * *
 ### setQuery
 
@@ -191,7 +191,7 @@ Set query to url.
   - Description: Object with params.
 - `params.saveOld`
   - Type: `Boolean`
-  - Description: Does save old query. Default: false.
+  - Description: Does save old query. Default: true.
 - `params.saveHash`
   - Type: `Boolean`
   - Description: Does save hash. Default: true.
@@ -219,7 +219,7 @@ setQuery({ test: 'field' }, { saveOld: true })
 setQuery({ test: 'value' }, { saveHash: false })
 // => /?test=value
 ```
-<a href="https://github.com/BrooonS/queryzz/blob/master/src/lib/setQuery.ts" target="_blank">Source code</a>
+<a href="https://github.com/letstri/queryzz/blob/master/src/lib/setQuery.ts" target="_blank">Source code</a>
 * * *
 
 &copy; Valery Strelets

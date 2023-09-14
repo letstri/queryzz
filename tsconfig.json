@@ -1,16 +1,13 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "ESNext",
     "lib": ["ESNext", "dom"],
     "declaration": true,
     "outDir": "dist",
     "strict": true,
+    "moduleResolution": "Bundler",
     "esModuleInterop": true
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "test"
-  ]
+  "exclude": ["node_modules", "dist", "test", "vite.config.ts", "commitlint.config.js"]
 }

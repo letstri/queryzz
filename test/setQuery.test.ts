@@ -1,7 +1,7 @@
 import { setQuery } from '../dist/queryzz';
 
-afterEach(() => {
-  setQuery({}, { saveOld: false });
+beforeEach(() => {
+  setQuery({}, { saveOld: false, saveHash: false, saveEmpty: false });
 });
 
 describe('[setQuery]: test simple set', () => {
@@ -58,7 +58,7 @@ describe('[setQuery]: test encoding', () => {
 });
 
 describe('[setQuery]: test saveOld', () => {
-  test('set query and don\'t save old', () => {
+  test("set query and don't save old", () => {
     setQuery({ var: 123 });
     setQuery({ var2: 123 }, { saveOld: false });
 

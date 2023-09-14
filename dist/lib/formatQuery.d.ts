@@ -22,5 +22,4 @@ import type { Query } from '../interfaces/Query';
  * formatQuery(query, false)
  * // => value=https://google.com
  */
-declare function formatQuery(query: Query, encode?: boolean): string;
-export default formatQuery;
+export declare function formatQuery(query: Query, encode?: boolean): string;

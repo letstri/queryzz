@@ -1,15 +1,3 @@
-import formatQuery from './lib/formatQuery';
-import getQuery from './lib/getQuery';
-import setQuery from './lib/setQuery';
-
-export {
-  formatQuery,
-  getQuery,
-  setQuery,
-};
-
-export default {
-  formatQuery,
-  getQuery,
-  setQuery,
-};
+export * from './lib/formatQuery';
+export * from './lib/getQuery';
+export * from './lib/setQuery';

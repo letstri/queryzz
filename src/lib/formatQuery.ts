@@ -23,18 +23,18 @@ import type { Query } from '../interfaces/Query';
  * formatQuery(query, false)
  * // => value=https://google.com
  */
-function formatQuery(query: Query, encode = true): string {
+export function formatQuery(query: Query, encode = true): string {
   if (query.constructor.name !== 'Object') {
     throw new Error('[queryzz]: param is not an object.');
   }
 
   return Object.entries(query)
-    .map(([key, value]) => (Array.isArray(value)
-      ? value
-        .map((item) => `${key}=${encode ? encodeURIComponent(String(item)) : item}`)
-        .join('&')
-      : `${key}=${encode ? encodeURIComponent(String(value)) : value}`))
+    .map(([key, value]) =>
+      Array.isArray(value)
+        ? value
+            .map((item) => `${key}=${encode ? encodeURIComponent(String(item)) : item}`)
+            .join('&')
+        : `${key}=${encode ? encodeURIComponent(String(value)) : value}`,
+    )
     .join('&');
 }
-
-export default formatQuery;

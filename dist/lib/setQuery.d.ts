@@ -11,7 +11,7 @@ interface Options {
  *
  * @param {Query} query Object to parse in url.
  * @param {?Object} params Object with params.
- * @param {?Boolean} params.saveOld Does save old query. Default: false.
+ * @param {?Boolean} params.saveOld Does save old query. Default: true.
  * @param {?Boolean} params.saveHash Does save hash. Default: true.
  * @param {?Boolean} params.saveEmpty Does save empty fields. Default: false.
  * @param {?Boolean} params.replaceState Doesn't save history in browser. Default: false.
@@ -31,5 +31,5 @@ interface Options {
  * setQuery({ test: 'value' }, { saveHash: false })
  * // => /?test=value
  */
-declare function setQuery(query?: Query, options?: Options): void;
-export default setQuery;
+export declare function setQuery(query?: Query, options?: Options): void;
+export {};

@@ -103,7 +103,8 @@ describe('[getQuery]: special tests', () => {
   });
 
   test('get hard query', () => {
-    window.location.search = '?test=123&test=456&redirect=https%3A%2F%2Fgoogle.com&bool=false&empty=null';
+    window.location.search =
+      '?test=123&test=456&redirect=https%3A%2F%2Fgoogle.com&bool=false&empty=null';
 
     const query1 = getQuery({ arrays: ['empty'] });
     const query2 = getQuery({ parse: false, arrays: ['empty'] });

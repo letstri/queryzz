@@ -8,11 +8,11 @@ interface Options {
 }
 
 // Signatures
-function getQuery<T = StringQuery>(
+export function getQuery<T = StringQuery>(
   options: Options & { parse: false },
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-): Partial<{ [P in keyof T]: T[P] extends Array<infer _> ? string[] : string; }>;
-function getQuery<T = Query>(options?: string | Options): Partial<T>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+): Partial<{ [P in keyof T]: T[P] extends Array<infer _> ? string[] : string }>;
+export function getQuery<T = Query>(options?: string | Options): Partial<T>;
 
 /**
  * @description
@@ -43,7 +43,7 @@ function getQuery<T = Query>(options?: string | Options): Partial<T>;
  * getQuery({ link: 'value=test&field=hi&value=123&test=true', parse: false })
  * // => { value: ['test', '123'], field: 'hi', test: 'true' }
  */
-function getQuery<T = Query>(options?: string | Options): Partial<T> {
+export function getQuery<T = Query>(options?: string | Options): Partial<T> {
   if (options && options.constructor.name !== 'String' && options.constructor.name !== 'Object') {
     throw new Error('[queryzz]: param is not an object or a string.');
   }
@@ -77,12 +77,9 @@ function getQuery<T = Query>(options?: string | Options): Partial<T> {
     ? localOptions.arrays.filter((item) => typeof item === 'string')
     : [];
   const stringQuery = link.startsWith('?') ? link.slice(1) : link;
-  const filteredQuery = stringQuery
-    .split('&')
-    .filter((part) => !!part && part.split('=')[1]);
+  const filteredQuery = stringQuery.split('&').filter((part) => !!part && part.split('=')[1]);
 
-  const startedQuery = arrays
-    .reduce((acc, field) => ({ ...acc, [field]: [] }), {} as T);
+  const startedQuery = arrays.reduce((acc, field) => ({ ...acc, [field]: [] }), {} as T);
 
   return filteredQuery.reduce((newQuery, part) => {
     const [key, value] = part.split('=');
@@ -90,7 +87,7 @@ function getQuery<T = Query>(options?: string | Options): Partial<T> {
       ? tryToParse(decodeURIComponent(value))
       : decodeURIComponent(value);
 
-    if (key in newQuery) {
+    if (key in (newQuery as Record<string, unknown>)) {
       const field = newQuery[key as keyof typeof newQuery];
 
       // If key already exists in formatted query,
@@ -107,5 +104,3 @@ function getQuery<T = Query>(options?: string | Options): Partial<T> {
     };
   }, startedQuery);
 }
-
-export default getQuery;
