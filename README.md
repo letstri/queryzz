@@ -139,12 +139,16 @@ setSearch('test')
 ```
 
 ```js
-// URL: /?search=test&search=test2
+// URL: /?search=test
 
 const [search, setSearch] = useQuery('search', { array: true })
 
 console.log(search)
-// => ['test', 'test2']
+// => ['test']
+
+setSearch('test2')
+
+// => URL: /?search=test&search=test2
 ```
 
 ```js
@@ -153,6 +157,40 @@ console.log(search)
 const [page, setPage] = useQuery('page', { parse: false })
 
 console.log(page)
+// => '1'
+```
+
+## Vue
+
+### useQuery
+
+```js
+const search = useQuery('search')
+
+search.value = 'test'
+
+// => URL: /?search=test
+```
+
+```js
+// URL: /?search=test
+
+const search = useQuery('search', { array: true })
+
+console.log(search.value)
+// => ['test']
+
+search.value = 'test2'
+
+// => URL: /?search=test&search=test2
+```
+
+```js
+// URL: /?page=1
+
+const page = useQuery('page', { parse: false })
+
+console.log(page.value)
 // => '1'
 ```
 

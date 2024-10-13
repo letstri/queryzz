@@ -10,7 +10,11 @@ export default defineBuildConfig({
       input: './src/react/index.ts',
       outDir: './dist/react',
     },
+    {
+      input: './src/vue/index.ts',
+      outDir: './dist/vue',
+    },
   ],
   declaration: 'compatible',
-  externals: ['react'],
+  externals: ['react', 'vue'],
 })

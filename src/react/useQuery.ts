@@ -11,6 +11,8 @@ interface Options {
 
 export function useQuery<T extends Value>(key: string): [T | undefined, Dispatch<SetStateAction<T | undefined>>]
 export function useQuery(key: string, options: Options & { parse: false }): [string | undefined, Dispatch<SetStateAction<string | undefined>>]
+export function useQuery<T extends Value>(key: string, options: Options & { array: true }): [T[] | undefined, Dispatch<SetStateAction<T[] | undefined>>]
+export function useQuery(key: string, options: Options & { array: true, parse: false }): [string[] | undefined, Dispatch<SetStateAction<string[] | undefined>>]
 
 export function useQuery<T extends Value>(key: string, options?: Options) {
   if (!key) {
