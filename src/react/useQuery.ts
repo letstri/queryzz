@@ -1,12 +1,23 @@
+import type { Value } from '../types'
 import { useEffect, useState } from 'react'
 import { getQuery } from '../native/getQuery'
 import { setQuery } from '../native/setQuery'
 
-export function useQuery(key: string) {
-  const queryState = useState(getQuery()[key])
+interface Options {
+  parse?: boolean
+  array?: boolean
+}
+
+export function useQuery<T extends Value>(key: string, options?: Options) {
+  const q = () => getQuery({
+    parse: options?.parse,
+    arrays: options?.array ? [key] : [],
+  })
+
+  const queryState = useState(q()[key] as T | undefined)
 
   useEffect(() => {
-    const currentQuery = getQuery()[key]
+    const currentQuery = q()[key]
 
     if (currentQuery !== queryState[0]) {
       setQuery({ [key]: queryState[0]! })
@@ -15,10 +26,10 @@ export function useQuery(key: string) {
 
   useEffect(() => {
     const listener = () => {
-      const currentQuery = getQuery()[key]
+      const currentQuery = q()[key]
 
       if (currentQuery !== queryState[0]) {
-        queryState[1](currentQuery)
+        queryState[1](currentQuery as T)
       }
     }
 
