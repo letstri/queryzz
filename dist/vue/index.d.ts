@@ -5,7 +5,7 @@ interface Options {
     parse?: boolean;
     array?: boolean;
 }
-declare function useQuery<T extends Value>(key: string): Ref<T | undefined>;
+declare function useQuery<T extends Value>(key: string, options?: Options): Ref<T | undefined>;
 declare function useQuery(key: string, options: Options & {
     parse: false;
 }): Ref<string | undefined>;

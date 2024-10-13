@@ -6,7 +6,7 @@ interface Options {
     array?: boolean;
 }
 type UseState<T> = [T, Dispatch<SetStateAction<T>>];
-declare function useQuery<T extends Value>(key: string): UseState<T | undefined>;
+declare function useQuery<T extends Value>(key: string, options?: Options): UseState<T | undefined>;
 declare function useQuery(key: string, options: Options & {
     parse: false;
 }): UseState<string | undefined>;

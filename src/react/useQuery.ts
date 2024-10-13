@@ -10,7 +10,7 @@ interface Options {
 
 type UseState<T> = [T, Dispatch<SetStateAction<T>>]
 
-export function useQuery<T extends Value>(key: string): UseState<T | undefined>
+export function useQuery<T extends Value>(key: string, options?: Options): UseState<T | undefined>
 export function useQuery(key: string, options: Options & { parse: false }): UseState<string | undefined>
 export function useQuery<T extends Value>(key: string, options: Options & { array: true }): UseState<T[]>
 export function useQuery(key: string, options: Options & { array: true, parse: false }): UseState<string[]>
