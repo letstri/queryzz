@@ -1,7 +1,7 @@
 {
   "name": "queryzz",
   "type": "module",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "packageManager": "pnpm@9.12.1",
   "description": "queryzz - a lightweight JS library for manipulating URL query parameters. Get, set, and format queries easily.",
   "author": "Valerii Strilets",
@@ -39,8 +39,8 @@
   "files": [
     "dist"
   ],
-  "prepublish": "npm run lint && npm run test && npm run build",
   "scripts": {
+    "prepublish": "npm run lint && npm run test && npm run build",
     "build": "unbuild",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
