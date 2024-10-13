@@ -10,7 +10,7 @@
 ### Install
 
 ```shell
-npm  i  queryzz
+npm i queryzz
 ```
 
 ## Usage
@@ -130,7 +130,31 @@ setQuery({ test: 'value' }, { saveHash: false })
 
 ### useQuery
 
-TBD
+```js
+const [search, setSearch] = useQuery('search')
+
+setSearch('test')
+
+// => URL: /?search=test
+```
+
+```js
+// URL: /?search=test&search=test2
+
+const [search, setSearch] = useQuery('search', { array: true })
+
+console.log(search)
+// => ['test', 'test2']
+```
+
+```js
+// URL: /?page=1
+
+const [page, setPage] = useQuery('page', { parse: false })
+
+console.log(page)
+// => '1'
+```
 
 ## Author
 
