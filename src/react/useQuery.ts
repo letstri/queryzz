@@ -1,6 +1,5 @@
-import type { Dispatch, SetStateAction } from 'react'
 import type { Value } from '../types'
-import { useEffect, useState } from 'react'
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react'
 import { getQuery } from '../native/getQuery'
 import { setQuery } from '../native/setQuery'
 
@@ -9,10 +8,12 @@ interface Options {
   array?: boolean
 }
 
-export function useQuery<T extends Value>(key: string): [T | undefined, Dispatch<SetStateAction<T | undefined>>]
-export function useQuery(key: string, options: Options & { parse: false }): [string | undefined, Dispatch<SetStateAction<string | undefined>>]
-export function useQuery<T extends Value>(key: string, options: Options & { array: true }): [T[] | undefined, Dispatch<SetStateAction<T[] | undefined>>]
-export function useQuery(key: string, options: Options & { array: true, parse: false }): [string[] | undefined, Dispatch<SetStateAction<string[] | undefined>>]
+type UseState<T> = [T, Dispatch<SetStateAction<T>>]
+
+export function useQuery<T extends Value>(key: string): UseState<T | undefined>
+export function useQuery(key: string, options: Options & { parse: false }): UseState<string | undefined>
+export function useQuery<T extends Value>(key: string, options: Options & { array: true }): UseState<T[]>
+export function useQuery(key: string, options: Options & { array: true, parse: false }): UseState<string[]>
 
 export function useQuery<T extends Value>(key: string, options?: Options) {
   if (!key) {

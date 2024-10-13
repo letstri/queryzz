@@ -10,8 +10,8 @@ interface Options {
 
 export function useQuery<T extends Value>(key: string): Ref<T | undefined>
 export function useQuery(key: string, options: Options & { parse: false }): Ref<string | undefined>
-export function useQuery<T extends Value>(key: string, options: Options & { array: true }): Ref<T[] | undefined>
-export function useQuery(key: string, options: Options & { array: true, parse: false }): Ref<string[] | undefined>
+export function useQuery<T extends Value>(key: string, options: Options & { array: true }): Ref<T[]>
+export function useQuery(key: string, options: Options & { array: true, parse: false }): Ref<string[]>
 
 export function useQuery<T extends Value>(key: string, options?: Options) {
   if (!key) {
