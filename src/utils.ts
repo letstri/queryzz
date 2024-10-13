@@ -1,16 +1,17 @@
-import { QueryItem } from './interfaces/Query';
+import type { Value } from './types'
 
-export const tryToParse = (value: string): QueryItem => {
+export function tryToParse(value: string): Value {
   try {
-    const parsed = JSON.parse(value);
+    const parsed = JSON.parse(value)
 
-    return typeof parsed === 'number' ||
-      typeof parsed === 'boolean' ||
-      parsed === undefined ||
-      parsed === null
+    return typeof parsed === 'number'
+      || typeof parsed === 'boolean'
+      || parsed === undefined
+      || parsed === null
       ? parsed
-      : value;
-  } catch (err) {
-    return value;
+      : value
   }
-};
+  catch {
+    return value
+  }
+}

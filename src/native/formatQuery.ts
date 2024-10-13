@@ -1,11 +1,11 @@
-import type { Query } from '../interfaces/Query';
+import type { Query } from '../types'
 
 /**
  * @description
  * Format query object to string.
  *
- * @param {IQuery} query Query variable to format.
- * @param {Boolean} encode Need to encode special characters. Default: true.
+ * @param {Query} query Query variable to format.
+ * @param {boolean} encode Need to encode special characters. Default: true.
  * @returns {string}
  *
  * @throws If query is not an object
@@ -25,16 +25,16 @@ import type { Query } from '../interfaces/Query';
  */
 export function formatQuery(query: Query, encode = true): string {
   if (query.constructor.name !== 'Object') {
-    throw new Error('[queryzz]: param is not an object.');
+    throw new Error('[queryzz]: param is not an object.')
   }
 
   return Object.entries(query)
     .map(([key, value]) =>
       Array.isArray(value)
         ? value
-            .map((item) => `${key}=${encode ? encodeURIComponent(String(item)) : item}`)
-            .join('&')
+          .map(item => `${key}=${encode ? encodeURIComponent(String(item)) : item}`)
+          .join('&')
         : `${key}=${encode ? encodeURIComponent(String(value)) : value}`,
     )
-    .join('&');
+    .join('&')
 }
