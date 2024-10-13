@@ -11,10 +11,10 @@ declare function useQuery(key: string, options: Options & {
 }): Ref<string | undefined>;
 declare function useQuery<T extends Value>(key: string, options: Options & {
     array: true;
-}): Ref<T[] | undefined>;
+}): Ref<T[]>;
 declare function useQuery(key: string, options: Options & {
     array: true;
     parse: false;
-}): Ref<string[] | undefined>;
+}): Ref<string[]>;
 
 export { useQuery };

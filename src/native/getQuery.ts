@@ -16,11 +16,11 @@ export function getQuery<T = Query>(options?: string | Options): Partial<T>
  * @description
  * Get query from url.
  *
- * @param {string | Options} options Can be null and source or query and object with params.
- * @param {string} options.source Source to parse. Default: window.location.search.
- * @param {Array} options.arrays Fields that must be arrays. Default: [].
- * @param {boolean} options.parse Need to parse types. Default: true.
- * @returns {Query}
+ * @param {string | Options} options - Optional. Can be a string representing the query or an Options object.
+ * @param {string} [options.source] - The source string to parse. Default: window.location.search.
+ * @param {string[]} [options.arrays] - An array of field names that should always be treated as arrays. Default: [].
+ * @param {boolean} [options.parse] - Whether to parse values into their appropriate types. Default: true.
+ * @returns {Query} An object containing the parsed query parameters.
  *
  * @example
  * // URL: /?value=test&field=hi&field=hello

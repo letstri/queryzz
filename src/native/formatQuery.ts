@@ -4,9 +4,9 @@ import type { Query } from '../types'
  * @description
  * Format query object to string.
  *
- * @param {Query} query Query variable to format.
- * @param {boolean} encode Need to encode special characters. Default: true.
- * @returns {string}
+ * @param {Query} query - The query object to be formatted into a string.
+ * @param {boolean} [encode] - Whether to encode special characters in the query values. Default: true.
+ * @returns {string} The formatted query string.
  *
  * @throws If query is not an object
  *
