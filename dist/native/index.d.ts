@@ -4,9 +4,9 @@ import { Q as Query, S as StringQuery } from '../shared/queryzz.c9af6ff2.js';
  * @description
  * Format query object to string.
  *
- * @param {Query} query Query variable to format.
- * @param {boolean} encode Need to encode special characters. Default: true.
- * @returns {string}
+ * @param {Query} query - The query object to be formatted into a string.
+ * @param {boolean} [encode] - Whether to encode special characters in the query values. Default: true.
+ * @returns {string} The formatted query string.
  *
  * @throws If query is not an object
  *
@@ -47,12 +47,12 @@ interface Options {
  * @description
  * Set query to url.
  *
- * @param {Query} query Object to parse in url.
- * @param {?object} params Object with params.
- * @param {?boolean} params.saveOld Does save old query. Default: true.
- * @param {?boolean} params.saveHash Does save hash. Default: true.
- * @param {?boolean} params.saveEmpty Does save empty fields. Default: false.
- * @param {?boolean} params.replaceState Replace history state in window.history. Default: true.
+ * @param {Query} query - Object to parse into URL query parameters.
+ * @param {Options} [options] - Configuration options.
+ * @param {boolean} [options.saveOld] - Save old query parameters. Default: true
+ * @param {boolean} [options.saveHash] - Save URL hash. Default: true
+ * @param {boolean} [options.saveEmpty] - Save empty fields in the query. Default: false
+ * @param {boolean} [options.replaceState] - Use replaceState instead of pushState. Default: true
  *
  * @example
  * setQuery({ test: 'value' })
