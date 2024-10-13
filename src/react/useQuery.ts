@@ -1,3 +1,4 @@
+import type { Dispatch, SetStateAction } from 'react'
 import type { Value } from '../types'
 import { useEffect, useState } from 'react'
 import { getQuery } from '../native/getQuery'
@@ -8,7 +9,14 @@ interface Options {
   array?: boolean
 }
 
+export function useQuery<T extends Value>(key: string): [T | undefined, Dispatch<SetStateAction<T | undefined>>]
+export function useQuery(key: string, options: Options & { parse: false }): [string | undefined, Dispatch<SetStateAction<string | undefined>>]
+
 export function useQuery<T extends Value>(key: string, options?: Options) {
+  if (!key) {
+    throw new Error('[queryzz] useQuery: key is required')
+  }
+
   const q = () => getQuery({
     parse: options?.parse,
     arrays: options?.array ? [key] : [],
