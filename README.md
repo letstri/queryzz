@@ -146,7 +146,7 @@ const [search, setSearch] = useQuery('search', { array: true })
 console.log(search)
 // => ['test']
 
-setSearch('test2')
+setSearch(['test', 'test2'])
 
 // => URL: /?search=test&search=test2
 ```
@@ -180,7 +180,7 @@ const search = useQuery('search', { array: true })
 console.log(search.value)
 // => ['test']
 
-search.value = 'test2'
+search.value = ['test', 'test2']
 
 // => URL: /?search=test&search=test2
 ```
