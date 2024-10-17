@@ -48,8 +48,8 @@
   "scripts": {
     "prepublishOnly": "npm run lint && npm run test && npm run build",
     "build": "unbuild",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
     "test": "vitest run"
   },
   "devDependencies": {
